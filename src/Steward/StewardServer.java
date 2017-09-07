@@ -99,7 +99,12 @@ public class StewardServer extends AdhibitionBase{
         }
     }
     
-    
+     private void PackageOperation(Socket socket, char charAt, String data) {
+         //获取全部包名
+         if (data.charAt(0) == '1') {
+             
+         }
+    }
     
     @Override
     public void NetRecive(Socket socket, String data) {
@@ -108,10 +113,10 @@ public class StewardServer extends AdhibitionBase{
                 break;
             case '1':UpdateFtime(socket,data.charAt(0),data.substring(1));
                 break;
-            case '3':
+            case '2':PackageOperation(socket,data.charAt(0),data.substring(1));
                 break;
         }
     }
 
-    
+
 }

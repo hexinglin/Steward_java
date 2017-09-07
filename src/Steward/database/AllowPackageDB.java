@@ -14,64 +14,32 @@ import java.util.ArrayList;
  *
  * @author TOKGO
  */
-public class AccountDB extends DB{
-    private static final String Addsql = "insert into account (id,password,xcoin,ftime) values (?,?,?,?)" ;
-    private static final String AllInformsql = "select* from account";
-    private static final String QueryIDsql = "select * from account where id=";
-    private static final String Deletesql = "delete from account where id=";
+public class AllowPackageDB extends DB{
+    private static final String Addsql = "insert into allowpackage (packagename) values (?)" ;
+    private static final String AllInformsql = "select* from allowpackage";
+    private static final String Deletesql = "delete from allowpackage where packagename=";
 
-    public static ArrayList<AccountNode> GetAllInform() throws SQLException{
-        ArrayList<AccountNode> informlist = new ArrayList();
-        AccountNode account = null;
+    public static ArrayList<String> GetAllInform() throws SQLException{
+        ArrayList<String> packagelist = new ArrayList();
         link(AllInformsql);
         rs = statement.executeQuery();
         while(rs.next()){
-            account = new AccountNode();
-            ToAccount(rs,account);
-            informlist.add(account);
+            packagelist.add(rs.getString("packagename"));
         }
-        return informlist;
+        return packagelist;
     }
     
-    public  static AccountNode QueryID(String ID) throws SQLException{
-        AccountNode account = new AccountNode();
-        link( QueryIDsql+"'" +ID+"'");
-        rs = statement.executeQuery();
-        rs.next();
-        ToAccount(rs,account);
-        con.close();
-        return account;
-    }
     
-    public static void AlterXcoin(String ID,int xcoin) throws SQLException{
-        link("update account set xcoin ='"+xcoin+"' where id= '"+ ID +"'");
+    public static void DeleteAccount(String packagename) throws SQLException{
+        link(Deletesql + "'" +packagename+"'");
         Close();
     }
     
-     public static void AlterFtime(String ID,int ftime) throws SQLException{
-        link("update account set ftime ='"+ftime+"' where id= '"+ ID +"'");
-        Close();
-    }
-    
-    public static void DeleteAccount(String id) throws SQLException{
-        link(Deletesql + "'" +id+"'");
-        Close();
-    }
-    
-    public static void AddNewAccout(String idString,String password,int xcoin,int ftime) throws SQLException{
+    public static void AddNewPackage(String packagename) throws SQLException{
         link(Addsql);
-        statement.setString(1, idString);
-        statement.setString(2, password);
-        statement.setInt(3, xcoin);
-        statement.setInt(4, ftime);
+        statement.setString(1, packagename);
         Close();
     }
     
-    private static void ToAccount(ResultSet rs,AccountNode account) throws SQLException{
-        account.idString = rs.getString("id");
-        account.password = rs.getString("password");
-        account.xcoin = rs.getInt("xcoin");
-        account.ftime = rs.getInt("ftime");
-    }
     
 }
