@@ -9,6 +9,9 @@ import NetCommunication.AdhibitionBase;
 import NetCommunication.NetTCP;
 import Steward.database.AccountDB;
 import Steward.database.AccountNode;
+import Steward.database.AllowPackageDB;
+import config.SystemConfig;
+import static config.SystemConfig.getSTEWARDS_CONFIG;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -56,7 +59,7 @@ public class StewardServer extends AdhibitionBase{
             if (account.xcoin < buyxcoin) 
                Send(socket, flag, "20");
             else{
-                AccountDB.AlterFtime("123", account.ftime + StewardTool.xcoin2ftime(buyxcoin));
+                AccountDB.AlterFtime("123", account.ftime + getSTEWARDS_CONFIG().getFtimeMap(buyxcoin));
                 AccountDB.AlterXcoin("123", account.xcoin - buyxcoin);
                 Send(socket, flag, "21");
             }
@@ -99,11 +102,23 @@ public class StewardServer extends AdhibitionBase{
         }
     }
     
-     private void PackageOperation(Socket socket, char charAt, String data) {
-         //获取全部包名
-         if (data.charAt(0) == '1') {
-             
-         }
+     private void PackageOperation(Socket socket, char flag, String data) {
+         System.out.println("sdfa"+data);
+         try {
+            //获取全部应用包名
+            if (data.charAt(0) == '1') {
+                String SendString ="";
+                for(String packagename: AllowPackageDB.GetAllInform())
+                    SendString += packagename+"\n";
+                Send(socket, flag, SendString);
+            }
+            else //添加应用包名
+            if (data.charAt(0) == '2') 
+                AllowPackageDB.AddNewPackage(data.substring(1));
+            else //删除应用包名
+            if (data.charAt(0) == '3') 
+                AllowPackageDB.DeleteAccount(data.substring(1));
+          } catch (Exception ex) {}
     }
     
     @Override

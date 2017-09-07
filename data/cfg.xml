@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<steward>
+    <stewardS >
+        <buytime>
+            <item xcion ="1" ftime = "3600"/> <!--一小时 -->
+            <item xcion ="5" ftime = "21600"/> <!--六小时   -->
+            <item xcion ="10" ftime = "46800"/> <!--十三小时 -->
+            <item xcion ="20" ftime = "108000"/> <!--三十小时 -->
+            <item xcion ="50" ftime = "324000"/> <!--九十小时  -->
+            <item xcion ="100" ftime = "720000"/> <!--二百小时 -->
+            <item xcion ="200" ftime = "1620000"/> <!--四百五十小时 -->
+            <item xcion ="500" ftime = "4320000"/> <!--一千二百小时 -->
+            <item xcion ="1000" ftime = "10800000"/> <!--三千小时 -->
+        </buytime>
+        
+    </stewardS>
+    
+    
+</steward>
