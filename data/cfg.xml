@@ -6,6 +6,9 @@ and open the template in the editor.
 -->
 <steward>
     <stewardS >
+        <DB url = "jdbc:mysql://localhost:3306/steward" user ="root" psd="123456">
+            
+        </DB>
         <buytime>
             <item xcion ="1" ftime = "3600"/> <!--一小时 -->
             <item xcion ="5" ftime = "21600"/> <!--六小时   -->
