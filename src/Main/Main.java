@@ -6,6 +6,7 @@
 
 package Main;
 
+import DebugTool.LogFile;
 import UI.MYUI;
 
 /**
@@ -19,6 +20,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+         LogFile.WriteLog("test","asdfasdf");
+//         getSTEWARDS_CONFIG().getDBURL();
         new MYUI().setVisible(true);
     }
     

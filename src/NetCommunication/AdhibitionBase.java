@@ -5,7 +5,7 @@
  */
 package NetCommunication;
 
-import TCP.ServersBaseClass;
+import Net.TCP.ServersBaseClass;
 import java.net.Socket;
 
 /**

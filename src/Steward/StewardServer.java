@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * @author TOKGO
  */
 public class StewardServer extends AdhibitionBase{
-    
+    private static final String UserName = "123";
     
 //    private final NetTCP serversCom ;
     
@@ -40,11 +40,11 @@ public class StewardServer extends AdhibitionBase{
             String[] strs = data.split("\n");
             int lastupdate = Integer.valueOf(strs[0]);
             int nowtime = Integer.valueOf(strs[1]);
-            AccountNode account = AccountDB.QueryID("123");
+            AccountNode account = AccountDB.QueryID(UserName);
             if (lastupdate == account.ftime) 
-                AccountDB.AlterFtime("123", nowtime);
+                AccountDB.AlterFtime(UserName, nowtime);
             else{
-                AccountDB.AlterFtime("123", account.ftime+(nowtime -lastupdate));
+                AccountDB.AlterFtime(UserName, account.ftime+(nowtime -lastupdate));
                 Send(socket, flag,""+(account.ftime+(nowtime -lastupdate)));
             } 
         } catch (SQLException ex) {
@@ -55,12 +55,12 @@ public class StewardServer extends AdhibitionBase{
     
     private void BuyFtime(Socket socket ,char flag ,int buyxcoin){
         try {
-            AccountNode account = AccountDB.QueryID("123");
+            AccountNode account = AccountDB.QueryID(UserName);
             if (account.xcoin < buyxcoin) 
                Send(socket, flag, "20");
             else{
-                AccountDB.AlterFtime("123", account.ftime + getSTEWARDS_CONFIG().getFtimeMap(buyxcoin));
-                AccountDB.AlterXcoin("123", account.xcoin - buyxcoin);
+                AccountDB.AlterFtime(UserName, account.ftime + getSTEWARDS_CONFIG().getFtimeMap(buyxcoin));
+                AccountDB.AlterXcoin(UserName, account.xcoin - buyxcoin);
                 Send(socket, flag, "21");
             }
         } catch (SQLException ex) {
@@ -70,7 +70,7 @@ public class StewardServer extends AdhibitionBase{
     
     private void GetXcionFtime(Socket socket ,char flag){
         try {
-            AccountNode account = AccountDB.QueryID("123");
+            AccountNode account = AccountDB.QueryID(UserName);
             Send(socket, flag, "1"+account.xcoin+"\n"+account.ftime);
         } catch (SQLException ex) {
             Logger.getLogger(StewardServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,14 +83,24 @@ public class StewardServer extends AdhibitionBase{
         if (runtime < sumruntime *0.7 || sumruntime < 1800) 
             return;
         try {
-            AccountNode account = AccountDB.QueryID("123");
+            AccountNode account = AccountDB.QueryID(UserName);
             if (sumruntime >3600) 
-                AccountDB.AlterXcoin("123", account.xcoin +50);
+                AccountDB.AlterXcoin(UserName, account.xcoin +50);
             else
-                AccountDB.AlterXcoin("123", account.xcoin +20);
+                AccountDB.AlterXcoin(UserName, account.xcoin +20);
         } catch (SQLException ex) {}
     }
    
+     private void BuyXcoin(Socket socket, char flag, int xcoin) {
+        try {
+            AccountNode account = AccountDB.QueryID(UserName);
+            AccountDB.AlterXcoin(UserName, account.xcoin + xcoin);
+            Send(socket, flag, "41");
+        } catch (SQLException ex) {
+           Send(socket, flag, "40");
+        }
+    }
+    
     public void ActivityRequest(Socket socket,char flag, String data){
          switch(data.charAt(0)){
             case '1':GetXcionFtime(socket,flag);
@@ -99,6 +109,8 @@ public class StewardServer extends AdhibitionBase{
                 break;
             case '3':BuyFtime(socket,flag,Integer.valueOf(data.substring(1))); 
                 break;
+            case '4':BuyXcoin(socket,flag,Integer.valueOf(data.substring(1)));
+                
         }
     }
     

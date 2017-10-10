@@ -1,6 +1,7 @@
 package config;
 
 
+import DebugTool.LogFile;
 import java.io.Serializable;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;

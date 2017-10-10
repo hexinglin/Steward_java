@@ -6,9 +6,9 @@
 
 package NetCommunication;
 
+import Net.TCP.ServersBaseClass;
 import Steward.StewardServer;
 import StudyEnglish.OperationWord;
-import TCP.ServersBaseClass;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.HashMap;

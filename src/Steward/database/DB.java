@@ -6,9 +6,7 @@
 
 package Steward.database;
 
-import config.SystemConfig;
 import static config.SystemConfig.getSTEWARDS_CONFIG;
-import database.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
